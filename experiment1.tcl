@@ -30,11 +30,49 @@ $ns duplex-link $n2 $n3 1Mb 10ms DropTail
 $ns duplex-link $n3 $n4 1Mb 10ms DropTail
 $ns duplex-link $n3 $n6 1Mb 10ms DropTail
 
+#Create a UDP agent and attach it to node n0
+set udp0 [new Agent/UDP]
+$ns attach-agent $n2 $udp0
+
+# Create a CBR traffic source and attach it to udp0
+set cbr0 [new Application/Traffic/CBR]
+$cbr0 set packetSize_ 500
+$cbr0 set interval_ 0.005
+$cbr0 attach-agent $udp0
+
+set null0 [new Agent/Null]
+$ns attach-agent $n3 $null0
+
+$ns connect $udp0 $null0
+
+
+
+#set up a TCP connection from node 1 to node 4
+set tcp [new Agent/TCP/Vegas]
+$tcp set class_ 2
+$ns attach-agent $n1 $tcp
+set sink [new Agent/TCPSink]
+$ns attach-agent $n4 $sink
+$ns connect $tcp $sink
+$tcp set fid_ 1
+
+#set up a FTP over TCP connection
+set ftp [new Application/FTP]
+$ftp attach-agent $tcp
+$ftp set type_ FTP
+
+
+
 $ns duplex-link-op $n1 $n2 orient right-down
 $ns duplex-link-op $n5 $n2 orient right-up
 $ns duplex-link-op $n2 $n3 orient right
 $ns duplex-link-op $n3 $n4 orient right-up
 $ns duplex-link-op $n3 $n6 orient right-down
+
+$ns at 0.5 "$cbr0 start"
+$ns at 4.5 "$cbr0 stop"
+$ns at 0.5 "$ftp start"
+$ns at 4.5 "$ftp stop"
 
 #Call the finish procedure after 5 seconds of simulation time
 $ns at 5.0 "finish"
