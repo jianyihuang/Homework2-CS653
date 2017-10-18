@@ -5,16 +5,24 @@ set ns [new Simulator]
 set nf [open out.nam w]
 $ns namtrace-all $nf
 
+
+#Open the trace file (start)
+set tf [open my_experiment_output.tr w]
+$ns trace-all $tf
+
 #Define a 'finish' procedure
 proc finish {} {
-        global ns nf
+        global ns nf tf
         $ns flush-trace
 	#Close the trace file
         close $nf
+        close $tf
 	#Execute nam on the trace file
         exec nam out.nam &
         exit 0
 }
+
+
 
 #Create two nodes
 set n1 [$ns node]
@@ -48,7 +56,7 @@ $ns connect $udp0 $null0
 
 
 #set up a TCP connection from node 1 to node 4
-set tcp [new Agent/TCP/Vegas]   
+set tcp [new Agent/TCP/Reno]
 $tcp set class_ 2
 $ns attach-agent $n1 $tcp
 set sink [new Agent/TCPSink]
@@ -76,6 +84,7 @@ $ns at 4.5 "$ftp stop"
 
 #Call the finish procedure after 5 seconds of simulation time
 $ns at 5.0 "finish"
+
 
 #Run the simulation
 $ns run
