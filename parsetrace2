@@ -51,8 +51,8 @@ for packet in result_list:
         totalrecvsize45 = totalrecvsize45 + int(packetEle[5])
         latency45Dict[packetEle[11]] = float(packetEle[1])-latency45Dict[packetEle[11]]
 
-print str(packet03loss/dequeue03 ) + " packet drop rate 0 to 3"
-print str(packet45loss/dequeue45 ) + " packet drop rate 4 to 5"
+print str(100* packet03loss/dequeue03 ) + " packet drop rate 0 to 3"
+print str(100 * packet45loss/dequeue45 ) + " packet drop rate 4 to 5"
 print str (totalrecvsize03)  + " Total receive size 0 to 3"
 print str (totalrecvsize45)  + " Total receive size 4 to 5"
 '''
