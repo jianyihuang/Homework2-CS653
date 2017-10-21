@@ -48,6 +48,7 @@ $udp0 set fid_ 3
 # Create a CBR traffic source and attach it to udp0
 set cbr0 [new Application/Traffic/CBR]
 $cbr0 set rate_ 8Mbps
+$cbr0 set Packet_Size 2000
 $cbr0 set random false
 $cbr0 attach-agent $udp0
 $cbr0 set type_ CBR
@@ -74,12 +75,12 @@ $ns duplex-link-op $n3 $n4 orient right-up
 $ns duplex-link-op $n3 $n6 orient right-down
 
 $ns at 0.5 "$cbr0 start"
-$ns at 4.5 "$cbr0 stop"
+$ns at 20.5 "$cbr0 stop"
 $ns at 0.5 "$ftp start"
-$ns at 4.5 "$ftp stop"
+$ns at 20.5 "$ftp stop"
 
 #Call the finish procedure after 5 seconds of simulation time
-$ns at 5.0 "finish"
+$ns at 21.0 "finish"
 
 #Run the simulation
 $ns run
