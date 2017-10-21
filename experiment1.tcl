@@ -6,9 +6,7 @@ $ns color 1 Blue
 $ns color 2 Red
 $ns color 3 Green
 
-#Open the nam trace file
-set nf [open out.nam w]
-$ns namtrace-all $nf
+
 
 #Open the trace file (start)
 set tf [open experiment1.tr w]
@@ -16,13 +14,10 @@ $ns trace-all $tf
 
 #Define a 'finish' procedure
 proc finish {} {
-        global ns nf tf
+        global ns tf
         $ns flush-trace
 	#Close the trace file
-        close $nf
         close $tf
-	#Execute nam on the trace file
-        exec nam out.nam &
         exit 0
 }
 
@@ -52,16 +47,16 @@ $udp0 set fid_ 3
 
 # Create a CBR traffic source and attach it to udp0
 set cbr0 [new Application/Traffic/CBR]
-$cbr0 set rate_ 7Mbps
+$cbr0 set rate_ 8Mbps
 $cbr0 set random false
 $cbr0 attach-agent $udp0
 $cbr0 set type_ CBR
 
 #set up a TCP connection from node 1 to node 4
-set tcp [new Agent/TCP/Newreno]
+set tcp [new Agent/TCP]
 $tcp set class_ 1
 $ns attach-agent $n1 $tcp
-set sink [new Agent/TCPSink/]
+set sink [new Agent/TCPSink]
 $ns attach-agent $n4 $sink
 $ns connect $tcp $sink
 $tcp set fid_ 1
