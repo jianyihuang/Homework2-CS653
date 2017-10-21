@@ -47,13 +47,13 @@ $udp0 set fid_ 3
 set cbr0 [new Application/Traffic/CBR]
 #$cbr0 set packetSize_ 500
 #$cbr0 set interval_ 0.005
-$cbr0 set packet_size_ 2000
+#$cbr0 set packet_size_ 2000
 $cbr0 set rate_ 8Mb
 $cbr0 attach-agent $udp0
 $cbr0 set type_ CBR
 
 #set up a TCP connection from node 1 to node 4
-set tcp0 [new Agent/TCP]
+set tcp0 [new Agent/TCP/Reno]
 $tcp0 set class_ 1
 $ns attach-agent $n1 $tcp0
 set sink [new Agent/TCPSink]

@@ -25,17 +25,15 @@ for packet in result_list:
         if (startTime03 == 0):
             startTime03 = float(packetEle[1])
         latency03Dict[packetEle[11]] = float(packetEle[1])
-
+        dequeue03 = dequeue03 + 1
     if(packetEle[0]=="-" and packetEle[2] == "4" and packetEle[3]=="1"and packetEle[4] == "tcp"):
         if (startTime45 == 0):
             startTime45 = float(packetEle[1])
         latency45Dict[packetEle[11]] = float(packetEle[1])
+        dequeue45 = dequeue45 + 1
 
     if(packetEle[0]=="-" and packetEle[2]=="1" and packetEle[3]== "2" and packetEle[4]=="tcp"):
-        if (latency03Dict.has_key(packetEle[11])):
-            dequeue03 = dequeue03 + 1
-        if (latency45Dict.has_key(packetEle[11])):
-            dequeue45 = dequeue45 + 1
+        dequeue45 = dequeue45 + 1
     if(packetEle[0]=="d" and packetEle[2]=="1" and packetEle[3]== "2" and packetEle[4]=="tcp"):
         if (latency03Dict.has_key(packetEle[11])):
             packet03loss = packet03loss + 1
@@ -51,7 +49,7 @@ for packet in result_list:
         totalrecvsize45 = totalrecvsize45 + int(packetEle[5])
         latency45Dict[packetEle[11]] = float(packetEle[1])-latency45Dict[packetEle[11]]
 
-print str(100* packet03loss/dequeue03 ) + " packet drop rate 0 to 3"
+print str(100 * packet03loss/dequeue03 ) + " packet drop rate 0 to 3"
 print str(100 * packet45loss/dequeue45 ) + " packet drop rate 4 to 5"
 print str (totalrecvsize03)  + " Total receive size 0 to 3"
 print str (totalrecvsize45)  + " Total receive size 4 to 5"
