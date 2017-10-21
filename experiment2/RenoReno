@@ -1,0 +1,101 @@
+Reno Reno
+CBR Rate 1
+0.0 packet drop rate 0 to 3
+0.0 packet drop rate 4 to 5
+2589640 Total receive size 0 to 3
+2589640 Total receive size 4 to 5
+2.60369474423 Throughput in bytes from 0 to 3
+2.60275005201 Throughput in bytes from 4 to 5
+32.6053568848 latency 0 to 3
+32.6399100763 latency 4 to 5
+
+CBR Rate 2
+0.0 packet drop rate 0 to 3
+0.0 packet drop rate 4 to 5
+2589640 Total receive size 0 to 3
+2589640 Total receive size 4 to 5
+2.60268465549 Throughput in bytes from 0 to 3
+2.60160478038 Throughput in bytes from 4 to 5
+32.6146607788 latency 0 to 3
+32.6499108792 latency 4 to 5
+
+CBR Rate 3
+0.0 packet drop rate 0 to 3
+0.0 packet drop rate 4 to 5
+2586520 Total receive size 0 to 3
+2584440 Total receive size 4 to 5
+2.59614651126 Throughput in bytes from 0 to 3
+2.59368909531 Throughput in bytes from 4 to 5
+32.7419614148 latency 0 to 3
+32.781226066 latency 4 to 5
+
+CBR Rate 4
+0.0 packet drop rate 0 to 3
+0.0 packet drop rate 4 to 5
+2589640 Total receive size 0 to 3
+2587560 Total receive size 4 to 5
+2.59938900848 Throughput in bytes from 0 to 3
+2.59682156411 Throughput in bytes from 4 to 5
+32.6480433561 latency 0 to 3
+32.6970140619 latency 4 to 5
+
+CBR Rate 5
+0.0 packet drop rate 0 to 3
+0.0 packet drop rate 4 to 5
+2437800 Total receive size 0 to 3
+2435720 Total receive size 4 to 5
+2.44669618734 Throughput in bytes from 0 to 3
+2.44510431034 Throughput in bytes from 4 to 5
+36.5293304904 latency 0 to 3
+36.5965207 latency 4 to 5
+
+CBR Rate 6
+0.509554140127 packet drop rate 0 to 3
+0.145772594752 packet drop rate 4 to 5
+1623480 Total receive size 0 to 3
+2136200 Total receive size 4 to 5
+1.6288977138 Throughput in bytes from 0 to 3
+2.14770309779 Throughput in bytes from 4 to 5
+58.1210598726 latency 0 to 3
+41.1733294461 latency 4 to 5
+
+CBR Rate 7
+1.08303249097 packet drop rate 0 to 3
+1.45914396887 packet drop rate 4 to 5
+1423800 Total receive size 0 to 3
+1052520 Total receive size 4 to 5
+1.41725652662 Throughput in bytes from 0 to 3
+1.05819510032 Throughput in bytes from 4 to 5
+83.7784144404 latency 0 to 3
+82.4338365759 latency 4 to 5
+
+CBR Rate 8
+2.03862660944 packet drop rate 0 to 3
+3.55191256831 packet drop rate 4 to 5
+948520 Total receive size 0 to 3
+733240 Total receive size 4 to 5
+0.951848137011 Throughput in bytes from 0 to 3
+0.738534182286 Throughput in bytes from 4 to 5
+93.4922832618 latency 0 to 3
+152.322494536 latency 4 to 5
+
+CBR Rate 9
+3.07219662058 packet drop rate 0 to 3
+5.88235294118 packet drop rate 4 to 5
+655240 Total receive size 0 to 3
+481560 Total receive size 4 to 5
+0.639175599654 Throughput in bytes from 0 to 3
+0.479937810202 Throughput in bytes from 4 to 5
+140.000302611 latency 0 to 3
+207.135890467 latency 4 to 5
+
+CBR Rate 10
+63.6363636364 packet drop rate 0 to 3
+63.6363636364 packet drop rate 4 to 5
+7320 Total receive size 0 to 3
+7320 Total receive size 4 to 5
+0.155390918547 Throughput in bytes from 0 to 3
+0.154033921131 Throughput in bytes from 4 to 5
+683.697090909 latency 0 to 3
+685.742181818 latency 4 to 5
+

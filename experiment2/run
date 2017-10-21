@@ -1,0 +1,15 @@
+#!/bin/bash
+
+echo "$1 $2"
+for i in {1..10}
+do
+    echo "CBR Rate $i"
+    ./format $i $1 $2
+    ns experiment2.tcl
+    ./parsetrace2
+    if [ "$i" -lt 10 ]
+    then
+        rm experiment2.tcl
+    fi
+    echo ""
+done 

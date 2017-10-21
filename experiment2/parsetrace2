@@ -1,0 +1,75 @@
+#!/usr/bin/env python
+f = open("experiment2.tr")
+result_list = []
+
+for line in f:
+    result_list.append(line)
+
+packet03loss = 0
+dequeue03 = 0.0
+startTime03 = 0
+endTime03 = 0
+totalrecvsize03 = 0
+latency03Dict = {}
+
+packet45loss = 0
+dequeue45 = 0.0
+startTime45 = 0
+endTime45 = 0
+totalrecvsize45 = 0
+latency45Dict = {}
+
+for packet in result_list:
+    packetEle = packet.split()
+    if(packetEle[0]=="-" and packetEle[2] == "0" and packetEle[3]=="1"and packetEle[4] == "tcp"):
+        if (startTime03 == 0):
+            startTime03 = float(packetEle[1])
+        latency03Dict[packetEle[11]] = float(packetEle[1])
+        dequeue03 = dequeue03 + 1
+    if(packetEle[0]=="-" and packetEle[2] == "4" and packetEle[3]=="1"and packetEle[4] == "tcp"):
+        if (startTime45 == 0):
+            startTime45 = float(packetEle[1])
+        latency45Dict[packetEle[11]] = float(packetEle[1])
+        dequeue45 = dequeue45 + 1
+
+    if(packetEle[0]=="-" and packetEle[2]=="1" and packetEle[3]== "2" and packetEle[4]=="tcp"):
+        pass
+    if(packetEle[0]=="d" and packetEle[2]=="1" and packetEle[3]== "2" and packetEle[4]=="tcp"):
+        if (latency03Dict.has_key(packetEle[11])):
+            packet03loss = packet03loss + 1
+        if (latency45Dict.has_key(packetEle[11])):
+            packet45loss = packet45loss+ 1
+    if(packetEle[4] == "tcp" and packetEle[2] == "2" and packetEle[3] == "3" and packetEle[0] == "r"):
+        endTime03 = float(packetEle[1])
+        totalrecvsize03 = totalrecvsize03 + int(packetEle[5])
+        latency03Dict[packetEle[11]] = float(packetEle[1])-latency03Dict[packetEle[11]]
+
+    if(packetEle[4] == "tcp" and packetEle[2] == "2" and packetEle[3] == "5" and packetEle[0] == "r"):
+        endTime45 = float(packetEle[1])
+        totalrecvsize45 = totalrecvsize45 + int(packetEle[5])
+        latency45Dict[packetEle[11]] = float(packetEle[1])-latency45Dict[packetEle[11]]
+
+print str(100 * packet03loss/dequeue03 ) + " packet drop rate 0 to 3"
+print str(100 * packet45loss/dequeue45 ) + " packet drop rate 4 to 5"
+print str (totalrecvsize03)  + " Total receive size 0 to 3"
+print str (totalrecvsize45)  + " Total receive size 4 to 5"
+'''
+print str(startTime03) + " startTime 0 to 3"
+print str(endTime03 )  + " EndTime 0 to 3"
+print str(startTime45) + " startTime 4 to 5"
+print str(endTime45 )  + " EndTime 4 to 5"
+'''
+print str(0.000008 * (totalrecvsize03)/(endTime03 - startTime03) )+ " Throughput in bytes from 0 to 3"
+print str(0.000008 * (totalrecvsize45)/(endTime45 - startTime45) )+ " Throughput in bytes from 4 to 5"
+
+
+s = 0.0
+for v in latency03Dict.values():
+    s += v
+print str(1000 * s/(len(latency03Dict)) )+ " latency 0 to 3"
+
+
+s = 0.0
+for v in latency45Dict.values():
+    s += v
+print str(1000 * s/(len(latency45Dict)) )+ " latency 4 to 5"
