@@ -52,13 +52,13 @@ $udp0 set fid_ 3
 
 # Create a CBR traffic source and attach it to udp0
 set cbr0 [new Application/Traffic/CBR]
-$cbr0 set packetSize_ 1000
-$cbr0 set rate_ 10Mb
+$cbr0 set rate_ 9Mbps
+$cbr0 set random false
 $cbr0 attach-agent $udp0
 $cbr0 set type_ CBR
 
 #set up a TCP connection from node 1 to node 4
-set tcp [new Agent/TCP/Vegas]
+set tcp [new Agent/TCP]
 $tcp set class_ 1
 $ns attach-agent $n1 $tcp
 set sink [new Agent/TCPSink]
