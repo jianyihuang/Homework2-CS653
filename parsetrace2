@@ -61,19 +61,17 @@ print str(endTime03 )  + " EndTime 0 to 3"
 print str(startTime45) + " startTime 4 to 5"
 print str(endTime45 )  + " EndTime 4 to 5"
 '''
-print str((totalrecvsize03)/(endTime03 - startTime03) )+ " Throughput in bytes from 0 to 3"
-print str((totalrecvsize45)/(endTime45 - startTime45) )+ " Throughput in bytes from 4 to 5"
-
-
+print str(0.000008 * (totalrecvsize03)/(endTime03 - startTime03) )+ " Throughput in bytes from 0 to 3"
+print str(0.000008 * (totalrecvsize45)/(endTime45 - startTime45) )+ " Throughput in bytes from 4 to 5"
 
 
 s = 0.0
 for v in latency03Dict.values():
     s += v
-print str(s/(len(latency03Dict)) )+ " latency 0 to 3"
+print str(1000 * s/(len(latency03Dict)) )+ " latency 0 to 3"
 
 
 s = 0.0
 for v in latency45Dict.values():
     s += v
-print str(s/(len(latency45Dict)) )+ " latency 4 to 5"
+print str(1000 * s/(len(latency45Dict)) )+ " latency 4 to 5"
