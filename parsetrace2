@@ -33,7 +33,7 @@ for packet in result_list:
         dequeue45 = dequeue45 + 1
 
     if(packetEle[0]=="-" and packetEle[2]=="1" and packetEle[3]== "2" and packetEle[4]=="tcp"):
-        dequeue45 = dequeue45 + 1
+        pass
     if(packetEle[0]=="d" and packetEle[2]=="1" and packetEle[3]== "2" and packetEle[4]=="tcp"):
         if (latency03Dict.has_key(packetEle[11])):
             packet03loss = packet03loss + 1
