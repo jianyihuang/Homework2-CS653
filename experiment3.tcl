@@ -3,7 +3,7 @@ set ns [new Simulator]
 
 #Define different colors for data flows (for NAM)
 $ns color 1 Blue
-$ns color 2 Red
+$ns color 2 DropTail
 $ns color 3 Green
 
 #Open the nam trace file
@@ -81,12 +81,12 @@ $ns duplex-link-op $n3 $n4 orient right-up
 $ns duplex-link-op $n3 $n6 orient right-down
 
 $ns at 1.5 "$cbr0 start"
-$ns at 4.5 "$cbr0 stop"
+$ns at 10.0 "$cbr0 stop"
 $ns at 0.5 "$ftp start"
-$ns at 4.5 "$ftp stop"
+$ns at 10.0 "$ftp stop"
 
 #Call the finish procedure after 5 seconds of simulation time
-$ns at 5.0 "finish"
+$ns at 10.0 "finish"
 
 #Run the simulation
 $ns run
