@@ -10,12 +10,17 @@ $ns color 3 Green
 set nf [open out.nam w]
 $ns namtrace-all $nf
 
+#Open the trace file (start)
+set tf [open experiment3.tr w]
+$ns trace-all $tf
+
 #Define a 'finish' procedure
 proc finish {} {
-        global ns nf
+        global ns nf tf
         $ns flush-trace
 	#Close the trace file
         close $nf
+        close $tf
 	#Execute nam on the trace file
         exec nam out.nam &
         exit 0
