@@ -54,7 +54,7 @@ $cbr0 attach-agent $udp0
 $cbr0 set type_ CBR
 
 #set up a TCP connection from node 1 to node 4
-set tcp [new Agent/TCP]
+set tcp [new Agent/TCP/Newreno]
 $tcp set class_ 1
 $ns attach-agent $n1 $tcp
 set sink [new Agent/TCPSink]
@@ -79,7 +79,23 @@ $ns at 20.5 "$cbr0 stop"
 $ns at 0.5 "$ftp start"
 $ns at 20.5 "$ftp stop"
 
-#Call the finish procedure after 5 seconds of simulation time
+proc plotWindow {tcpSource outfile} {
+   global ns
+
+   set now [$ns now]
+   set cwnd [$tcpSource set cwnd_]
+
+###Print TIME CWND   for  gnuplot to plot progressing on CWND
+   puts  $outfile  "$now $cwnd"
+
+   $ns at [expr $now+0.1] "plotWindow $tcpSource  $outfile"
+}
+
+set outfile [open  "WinFile"  w]
+
+
+$ns  at  0.0  "plotWindow $tcp  $outfile"
+
 $ns at 21.0 "finish"
 
 #Run the simulation
