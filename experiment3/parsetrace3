@@ -1,0 +1,47 @@
+#!/usr/bin/env python
+
+f = open("experiment3.tr")
+result_list = []
+
+for line in f:
+    result_list.append(line)
+
+packetloss = 0
+dequeue = 0.0
+startTime = 0
+endTime = 0
+totalrecvsize = 0
+latencyDict = {}
+for packet in result_list:
+    packetEle = packet.split()
+    if(packetEle[0]=="d" and packetEle[2]=="1" and packetEle[3]== "2"and packetEle[4]=="tcp"):
+        packetloss = packetloss + 1
+        #latencyDict[packetEle[11]] = 0
+        del latencyDict[packetEle[11]]
+    if(packetEle[0]=="-" and packetEle[2]=="1" and packetEle[3]== "2" and packetEle[4]=="tcp"):
+        dequeue = dequeue + 1
+    if(packetEle[0]=="-" and packetEle[2] == "0" and packetEle[3]=="1"and packetEle[4] == "tcp"):
+        if (startTime == 0):
+            startTime = float(packetEle[1])
+        latencyDict[packetEle[11]] = float(packetEle[1])
+    if(packetEle[4] == "tcp" and packetEle[2] == "2" and packetEle[3] == "3" and packetEle[0] == "r"):
+        endTime = float(packetEle[1])
+        totalrecvsize = totalrecvsize + int(packetEle[5])
+        latencyDict[packetEle[11]] = float(packetEle[1])-latencyDict[packetEle[11]]
+print str(packetloss/dequeue ) + " packet drop rate"
+print str (totalrecvsize)  + " Total receive size"
+print str(startTime) + " startTime"
+print str(endTime )  + " EndTime"
+print str(0.000008 * (totalrecvsize)/(endTime - startTime) )+ " Throughput in Megabits/s"
+s = 0.0
+for v in latencyDict.values():
+    s += v
+print str(1000 * s/(len(latencyDict)) )+ " latency"
+
+
+'''
+    if (startTime == 0):
+        startTime =  packetEle[1]
+    endTime = float(packetEle[1])
+    totalrecvsize = totalrecvsize + int(packetEle[5])
+'''
