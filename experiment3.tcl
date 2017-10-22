@@ -37,7 +37,7 @@ set n6 [$ns node]
 #Create a duplex link between the nodes
 $ns duplex-link $n1 $n2 10Mb 10ms DropTail
 $ns duplex-link $n2 $n5 10Mb 10ms DropTail
-$ns duplex-link $n2 $n3 10Mb 10ms DropTail
+$ns duplex-link $n2 $n3 10Mb 10ms RED
 $ns duplex-link $n3 $n4 10Mb 10ms DropTail
 $ns duplex-link $n3 $n6 10Mb 10ms DropTail
 
@@ -54,16 +54,16 @@ set cbr0 [new Application/Traffic/CBR]
 #$cbr0 set packetSize_ 500
 #$cbr0 set interval_ 0.005
 #$cbr0 set packet_size_ 2000
-$cbr0 set rate_ 1Mb
+$cbr0 set rate_ 9Mb
 $cbr0 attach-agent $udp0
 $cbr0 set type_ CBR
 
 
 #set up a TCP connection from node 1 to node 4
-set tcp [new Agent/TCP/Reno]
+set tcp [new Agent/TCP/Sack1]
 $tcp set class_ 1
 $ns attach-agent $n1 $tcp
-set sink [new Agent/TCPSink]
+set sink [new Agent/TCPSink/Sack1]
 $ns attach-agent $n4 $sink
 $ns connect $tcp $sink
 $tcp set fid_ 1

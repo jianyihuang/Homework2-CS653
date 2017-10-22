@@ -47,8 +47,7 @@ $udp0 set fid_ 3
 
 # Create a CBR traffic source and attach it to udp0
 set cbr0 [new Application/Traffic/CBR]
-$cbr0 set rate_ 8Mbps
-$cbr0 set Packet_Size 2000
+$cbr0 set rate_ 10Mbps
 $cbr0 set random false
 $cbr0 attach-agent $udp0
 $cbr0 set type_ CBR
@@ -91,7 +90,7 @@ proc plotWindow {tcpSource outfile} {
    $ns at [expr $now+0.1] "plotWindow $tcpSource  $outfile"
 }
 
-set outfile [open  "WinFile"  w]
+set outfile [open  "ex1cwnd.csv"  w]
 
 
 $ns  at  0.0  "plotWindow $tcp  $outfile"

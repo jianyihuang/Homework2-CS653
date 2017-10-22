@@ -51,7 +51,7 @@ for trace in trace_file:
         else:
             cbr_int_recvsize = 0
 
-        if tr[0] == 'r' and tr[3] == tcp_to_node and tr[8] == tcp_src_addr and tr[9] == cbr_dest_addr and tr[4] == "tcp":
+        if tr[0] == 'r' and tr[3] == tcp_to_node and tr[8] == tcp_src_addr and tr[9] == tcp_dest_addr and tr[4] == "tcp":
             tcp_int_recvsize = int(tr[5])
             tcp_tot_recvsize += int(tr[5])
         else:

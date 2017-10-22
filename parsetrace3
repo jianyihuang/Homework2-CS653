@@ -28,7 +28,7 @@ for packet in result_list:
         endTime = float(packetEle[1])
         totalrecvsize = totalrecvsize + int(packetEle[5])
         latencyDict[packetEle[11]] = float(packetEle[1])-latencyDict[packetEle[11]]
-print str(packetloss/dequeue ) + " packet drop rate"
+print str(100 * packetloss/dequeue ) + "% packet drop rate"
 print str (totalrecvsize)  + " Total receive size"
 print str(startTime) + " startTime"
 print str(endTime )  + " EndTime"

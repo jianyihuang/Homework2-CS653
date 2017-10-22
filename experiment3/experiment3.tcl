@@ -7,8 +7,8 @@ $ns color 2 Red
 $ns color 3 Green
 
 #Open the nam trace file
-set nf [open out.nam w]
-$ns namtrace-all $nf
+#set nf [open out.nam w]
+#$ns namtrace-all $nf
 
 #Open the trace file (start)
 set tf [open experiment3.tr w]
@@ -16,13 +16,11 @@ $ns trace-all $tf
 
 #Define a 'finish' procedure
 proc finish {} {
-        global ns nf tf
+        global ns tf
         $ns flush-trace
 	#Close the trace file
-        close $nf
         close $tf
 	#Execute nam on the trace file
-        exec nam out.nam &
         exit 0
 }
 
@@ -35,11 +33,11 @@ set n5 [$ns node]
 set n6 [$ns node]
 
 #Create a duplex link between the nodes
-$ns duplex-link $n1 $n2 10Mb 10ms RED
-$ns duplex-link $n2 $n5 10Mb 10ms RED
+$ns duplex-link $n1 $n2 10Mb 10ms DropTail
+$ns duplex-link $n2 $n5 10Mb 10ms DropTail
 $ns duplex-link $n2 $n3 10Mb 10ms RED
-$ns duplex-link $n3 $n4 10Mb 10ms RED
-$ns duplex-link $n3 $n6 10Mb 10ms RED
+$ns duplex-link $n3 $n4 10Mb 10ms DropTail
+$ns duplex-link $n3 $n6 10Mb 10ms DropTail
 
 #Create a UDP agent and attach it to node n2
 set udp0 [new Agent/UDP]
@@ -60,10 +58,10 @@ $cbr0 set type_ CBR
 
 
 #set up a TCP connection from node 1 to node 4
-set tcp [new Agent/TCP/Sack1]
+set tcp [new Agent/TCP/Reno]
 $tcp set class_ 1
 $ns attach-agent $n1 $tcp
-set sink [new Agent/TCPSink/Sack1]
+set sink [new Agent/TCPSink]
 $ns attach-agent $n4 $sink
 $ns connect $tcp $sink
 $tcp set fid_ 1
@@ -84,6 +82,23 @@ $ns at 1.5 "$cbr0 start"
 $ns at 10.0 "$cbr0 stop"
 $ns at 0.0 "$ftp start"
 $ns at 10.0 "$ftp stop"
+
+proc plotWindow {tcpSource outfile} {
+   global ns
+
+   set now [$ns now]
+   set cwnd [$tcpSource set cwnd_]
+
+###Print TIME CWND   for  gnuplot to plot progressing on CWND
+   puts  $outfile  "$now $cwnd"
+
+   $ns at [expr $now+0.1] "plotWindow $tcpSource  $outfile"
+}
+
+set outfile [open  "renodrop.csv"  w]
+
+
+$ns  at  0.0  "plotWindow $tcp  $outfile"
 
 #Call the finish procedure after 5 seconds of simulation time
 $ns at 11.0 "finish"
