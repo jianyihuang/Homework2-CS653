@@ -3,7 +3,7 @@ set ns [new Simulator]
 
 #Define different colors for data flows (for NAM)
 $ns color 1 Blue
-$ns color 2 DropTail
+$ns color 2 Red
 $ns color 3 Green
 
 #Open the nam trace file
@@ -35,11 +35,11 @@ set n5 [$ns node]
 set n6 [$ns node]
 
 #Create a duplex link between the nodes
-$ns duplex-link $n1 $n2 1Mb 10ms DropTail
-$ns duplex-link $n2 $n5 1Mb 10ms DropTail
-$ns duplex-link $n2 $n3 1Mb 10ms DropTail
-$ns duplex-link $n3 $n4 1Mb 10ms DropTail
-$ns duplex-link $n3 $n6 1Mb 10ms DropTail
+$ns duplex-link $n1 $n2 10Mb 10ms DropTail
+$ns duplex-link $n2 $n5 10Mb 10ms DropTail
+$ns duplex-link $n2 $n3 10Mb 10ms DropTail
+$ns duplex-link $n3 $n4 10Mb 10ms DropTail
+$ns duplex-link $n3 $n6 10Mb 10ms DropTail
 
 #Create a UDP agent and attach it to node n2
 set udp0 [new Agent/UDP]
@@ -82,11 +82,11 @@ $ns duplex-link-op $n3 $n6 orient right-down
 
 $ns at 1.5 "$cbr0 start"
 $ns at 10.0 "$cbr0 stop"
-$ns at 0.5 "$ftp start"
+$ns at 0.0 "$ftp start"
 $ns at 10.0 "$ftp stop"
 
 #Call the finish procedure after 5 seconds of simulation time
-$ns at 10.0 "finish"
+$ns at 11.0 "finish"
 
 #Run the simulation
 $ns run
