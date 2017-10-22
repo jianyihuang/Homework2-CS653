@@ -1,0 +1,185 @@
+#!/usr/bin/env python
+
+trace_file = []
+with open("experiment3.tr") as f:
+    trace_file = f.readlines()
+
+interval = 0.5
+time = 0
+
+cbr_src_addr = "4.0"
+cbr_dest_addr = "5.0"
+cbr_from_node = "4"
+cbr_to_node = "5"
+cbr_start_time = 0
+cbr_end_time = 0
+cbr_int_recvsize = 0
+cbr_tot_recvsize = 0
+
+tcp_src_addr = "0.0"
+tcp_dest_addr = "3.0"
+tcp_from_node = "0"
+tcp_to_node = "3"
+tcp_start_time = 0
+tcp_end_time = 0
+tcp_int_recvsize = 0
+tcp_tot_recvsize = 0
+
+
+CBR_throughput_data = []
+TCP_throughput_data = []
+CBR_latency_data = []
+TCP_latency_data = []
+CBR_latency_dict = {}
+TCP_latency_dict = {}
+
+
+for trace in trace_file:
+    tr = trace.split()
+
+    if float(tr[1]) - time <= interval:
+        if tr[0] == 'r'and tr[3] == cbr_to_node and tr[8] == cbr_src_addr and tr[9] == cbr_dest_addr and tr[4] == "cbr":
+            cbr_int_recvsize += int(tr[5])
+            cbr_tot_recvsize += int(tr[5])
+            CBR_latency_dict[tr[11]].append(float(tr[1]))
+        if tr[0] == 'r' and tr[3] == tcp_to_node and tr[8] == tcp_src_addr and tr[9] == tcp_dest_addr and tr[4] == "tcp":
+            tcp_int_recvsize += int(tr[5])
+            tcp_tot_recvsize += int(tr[5])
+            TCP_latency_dict[tr[11]].append(float(tr[1]))
+
+        if tr[0] == '-' and tr[2] == cbr_from_node and tr[3] == '1' and tr[8] == cbr_src_addr and tr[9] == cbr_dest_addr and tr[4] == "cbr":
+            CBR_latency_dict[tr[11]] = []
+            CBR_latency_dict[tr[11]].append(float(tr[1]))
+        if tr[0] == '-' and tr[2] == tcp_from_node and tr[3] == '1' and tr[8] == tcp_src_addr and tr[9] == tcp_dest_addr and tr[4] == "tcp":
+            TCP_latency_dict[tr[11]] = []
+            TCP_latency_dict[tr[11]].append(float(tr[1]))
+
+    else:
+        cbr_throughput = 0.000008*(cbr_int_recvsize/interval)
+        CBR_throughput_data.append("{},{}".format(time, cbr_throughput))
+        tcp_throughput = 0.000008*(tcp_int_recvsize/interval)
+        TCP_throughput_data.append("{},{}".format(time, tcp_throughput))
+
+        cbr_latency = 0.0
+        count = 0
+        for v in CBR_latency_dict.values():
+            if len(v) > 1:
+                count += 1
+                cbr_latency += (v[1] - v[0])
+        if count > 0:
+            cbr_latency = cbr_latency / count
+        else:
+            cbr_latency = 0
+        CBR_latency_data.append("{},{}".format(time, cbr_latency*1000))
+        for k, v in CBR_latency_dict.items():
+            if len(v) > 1:
+                del CBR_latency_dict[k]
+
+        tcp_latency = 0.0
+        count = 0
+        for v in TCP_latency_dict.values():
+            if len(v) > 1:
+                count += 1
+                tcp_latency += (v[1] - v[0])
+        tcp_latency = tcp_latency / count
+        TCP_latency_data.append("{},{}".format(time, tcp_latency*1000))
+        for k, v in TCP_latency_dict.items():
+            if len(v) > 1:
+                del TCP_latency_dict[k]
+
+
+        time += interval
+
+        if tr[0] == 'r' and tr[3] == cbr_to_node and tr[8] == cbr_src_addr and tr[9] == cbr_dest_addr and tr[4] == "cbr":
+            cbr_int_recvsize = int(tr[5])
+            cbr_tot_recvsize += int(tr[5])
+            CBR_latency_dict[tr[11]].append(float(tr[1]))
+        else:
+            cbr_int_recvsize = 0
+
+        if tr[0] == 'r' and tr[3] == tcp_to_node and tr[8] == tcp_src_addr and tr[9] == tcp_dest_addr and tr[4] == "tcp":
+            tcp_int_recvsize = int(tr[5])
+            tcp_tot_recvsize += int(tr[5])
+            TCP_latency_dict[tr[11]].append(float(tr[1]))
+        else:
+            tcp_int_recvsize = 0
+
+        if tr[0] == '-' and tr[2] == cbr_from_node and tr[3] == '1' and tr[8] == cbr_src_addr and tr[9] == cbr_dest_addr and tr[4] == "cbr":
+            CBR_latency_dict[tr[11]] = []
+            CBR_latency_dict[tr[11]].append(float(tr[1]))
+        if tr[0] == '-' and tr[2] == tcp_from_node and tr[3] == '1' and tr[8] == tcp_src_addr and tr[9] == tcp_dest_addr and tr[4] == "tcp":
+            TCP_latency_dict[tr[11]] = []
+            TCP_latency_dict[tr[11]].append(float(tr[1]))
+
+        #while float(tr[1]) - time > interval:
+            #print time +  "0.0\n"
+            #time += interval
+
+
+cbr_throughput = 0.000008*(cbr_int_recvsize/interval)
+CBR_throughput_data.append("{},{}".format(time, cbr_throughput))
+tcp_throughput = 0.000008*(tcp_int_recvsize/interval)
+TCP_throughput_data.append("{},{}".format(time, tcp_throughput))
+
+cbr_latency = 0.0
+count = 0
+for v in CBR_latency_dict.values():
+    if len(v) > 1:
+        count += 1
+        cbr_latency += (v[1] - v[0])
+cbr_latency = cbr_latency / count
+CBR_latency_data.append("{},{}".format(time, cbr_latency*1000))
+for k, v in CBR_latency_dict.items():
+    if len(v) > 1:
+        del CBR_latency_dict[k]
+
+tcp_latency = 0.0
+count = 0
+for v in TCP_latency_dict.values():
+    if len(v) > 1:
+        count += 1
+        tcp_latency += (v[1] - v[0])
+tcp_latency = tcp_latency / count
+TCP_latency_data.append("{},{}".format(time, tcp_latency*1000))
+for k, v in TCP_latency_dict.items():
+    if len(v) > 1:
+        del TCP_latency_dict[k]
+
+
+time += interval
+
+with open("CBR_output.csv", 'w') as cbrf:
+    cbrf.write("\n".join(CBR_throughput_data))
+
+with open("TCP_output.csv", 'w') as tcpf:
+    tcpf.write("\n".join(TCP_throughput_data))
+
+with open("CBR_latency.csv", 'w') as cbrl:
+    cbrl.write("\n".join(CBR_latency_data))
+
+with open("TCP_latency.csv", 'w') as tcpl:
+    tcpl.write("\n".join(TCP_latency_data))
+
+
+avg_cbr_throughput = 0.000008*(cbr_tot_recvsize/time)
+print "Avg CBR throughput {} to {} = {} Mbits/sec".format(cbr_src_addr, cbr_dest_addr, avg_cbr_throughput)
+avg_tcp_throughput = 0.000008*(tcp_tot_recvsize/time)
+print "Avg TCP throughput {} to {} = {} Mbits/sec".format(tcp_src_addr, tcp_dest_addr, avg_tcp_throughput)
+
+count = 0
+avg_cbr_latency = 0.0
+for line in CBR_latency_data:
+    if line.split(",")[1] != '0':
+        avg_cbr_latency += float(line.split(",")[1])
+        count += 1
+avg_cbr_latency = avg_cbr_latency/count
+print "Avg CBR latency {} to {} = {} ms".format(cbr_src_addr, cbr_dest_addr, avg_cbr_latency)
+
+count = 0
+avg_tcp_latency = 0.0
+for line in TCP_latency_data:
+    if line.split(",")[1] != '0':
+        avg_tcp_latency += float(line.split(",")[1])
+        count += 1
+avg_tcp_latency = avg_tcp_latency/count
+print "Avg TCP latency {} to {} = {} ms".format(tcp_src_addr, tcp_dest_addr, avg_tcp_latency)
