@@ -33,11 +33,11 @@ set n5 [$ns node]
 set n6 [$ns node]
 
 #Create a duplex link between the nodes
-$ns duplex-link $n1 $n2 10Mb 10ms DropTail
-$ns duplex-link $n2 $n5 10Mb 10ms DropTail
+$ns duplex-link $n1 $n2 10Mb 10ms RED
+$ns duplex-link $n2 $n5 10Mb 10ms RED
 $ns duplex-link $n2 $n3 10Mb 10ms RED
-$ns duplex-link $n3 $n4 10Mb 10ms DropTail
-$ns duplex-link $n3 $n6 10Mb 10ms DropTail
+$ns duplex-link $n3 $n4 10Mb 10ms RED
+$ns duplex-link $n3 $n6 10Mb 10ms RED
 
 #Create a UDP agent and attach it to node n2
 set udp0 [new Agent/UDP]

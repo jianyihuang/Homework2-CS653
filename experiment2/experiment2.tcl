@@ -28,7 +28,7 @@ set n4 [$ns node]
 set n5 [$ns node]
 set n6 [$ns node]
 
-#Create a duplex link between the nodes
+#Create a duplex link between the nodes $ns duplex-link $n1 $n2 10Mb 10ms DropTail
 $ns duplex-link $n1 $n2 10Mb 10ms DropTail
 $ns duplex-link $n2 $n5 10Mb 10ms DropTail
 $ns duplex-link $n2 $n3 10Mb 10ms DropTail
@@ -53,7 +53,7 @@ $cbr0 attach-agent $udp0
 $cbr0 set type_ CBR
 
 #set up a TCP connection from node 1 to node 4
-set tcp0 [new Agent/TCP/Vegas]
+set tcp0 [new Agent/TCP/Newreno]
 $tcp0 set class_ 1
 $ns attach-agent $n1 $tcp0
 set sink [new Agent/TCPSink]
